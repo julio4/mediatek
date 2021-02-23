@@ -10,7 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import mediatek2021.Utilisateur;
 
-public class Utils {
+public class Session {
 
     /*
     On stocke dans les cookies la connexion et les information de l'utilisateur connecté

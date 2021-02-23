@@ -1,4 +1,4 @@
-package init;
+package services.init;
 
 import java.io.*;
 import javax.servlet.http.*;

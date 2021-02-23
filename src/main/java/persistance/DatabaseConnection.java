@@ -1,4 +1,4 @@
-package services.init;
+package persistance;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

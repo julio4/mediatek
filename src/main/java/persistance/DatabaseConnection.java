@@ -6,30 +6,24 @@ import java.sql.SQLException;
 
 public class DatabaseConnection {
 
-    public static Connection getConnection()
-            throws ClassNotFoundException, SQLException {
+    public static Connection getConnection() throws ClassNotFoundException, SQLException {
 
-        // Note: Change the connection parameters accordingly.
-        String hostName = "localhost";
-        String sid = "db12c";
-        String userName = "mytest";
-        String password = "12345";
+        // Info de connexion
+        String host = "localhost";
+        String sid = "XE";
+        String user = "SYSTEM";
+        String password = "ROOT";
 
+        // Pour Oracle
         Class.forName("oracle.jdbc.driver.OracleDriver");
-        // URL Connection for Oracle
-        // Example:
-        // jdbc:oracle:thin:@localhost:1521:db11g
-        // jdbc:oracle:thin:@//HOSTNAME:PORT/SERVICENAME
-        String connectionURL = "jdbc:oracle:thin:@" + hostName + ":1521:" + sid;
+        String connectionURL = "jdbc:oracle:thin:@" + host + ":1521:" + sid;
 
-        return DriverManager.getConnection(connectionURL, userName,
-                password);
+        return DriverManager.getConnection(connectionURL, user, password);
     }
 
     public static void close(Connection conn) {
         try {
             conn.close();
-        } catch (Exception ignored) {
-        }
+        } catch (Exception ignored) {}
     }
 }

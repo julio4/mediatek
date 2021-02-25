@@ -2,7 +2,6 @@ package services;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,10 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import mediatek2021.Mediatek;
 import mediatek2021.Utilisateur;
-import persistance.DatabaseConnection;
 import persistance.Session;
-import persistance.MediatekData;
+import persistance.modèle.LoggedUser;
 
 @WebServlet(urlPatterns = { "/login" })
 public class AuthentificationServlet extends HttpServlet {
@@ -26,14 +25,18 @@ public class AuthentificationServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        RequestDispatcher dispatcher = null;
 
-        RequestDispatcher dispatcher //
-                = this.getServletContext().getRequestDispatcher("/WEB-INF/views/loginView.jsp");
+        //Si connecté redirection vers la page d'accueil
+        if(Session.isStarted(request.getSession())) {
+            dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/indexView.jsp");
+        }
+        else {
+            dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/loginView.jsp");
+        }
 
         dispatcher.forward(request, response);
-
     }
 
     // When the user enters userName & password, and click Submit.
@@ -41,43 +44,33 @@ public class AuthentificationServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String userName = request.getParameter("userName");
+
+        String username = request.getParameter("username");
         String password = request.getParameter("password");
-        String rememberMeStr = request.getParameter("rememberMe");
-        boolean remember = "Y".equals(rememberMeStr);
 
-        Utilisateur user = null;
-        boolean hasError = false;
-        String errorString = null;
+        LoggedUser user = null;
+        boolean invalid = false;
+        String error = null;
 
-        if (userName == null || password == null || userName.length() == 0 || password.length() == 0) {
-            hasError = true;
-            errorString = "Required username and password!";
+        if (username == null || password == null || username.length() == 0 || password.length() == 0) {
+            invalid = true;
+            error = "Veuillez indiquer votre nom d'utilisateur et votre mot de passe!";
         } else {
-            Connection conn = Session.getConnection(request);
-            try {
-                // Find the user in the DB.
-                user = MediatekData.getUser(userName, password);
+            Connection db = Session.getConnection(request);
+            // Find the user in the DB.
+            user = (LoggedUser) Mediatek.getInstance().getUser(username, password);
 
-                if (user == null) {
-                    hasError = true;
-                    errorString = "User Name or password invalid";
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-                hasError = true;
-                errorString = e.getMessage();
+            if (user == null) {
+                invalid = true;
+                error = "Utilisateur ou mot de passe non valide";
             }
         }
         // If error, forward to /WEB-INF/views/login.jsp
-        if (hasError) {
-            user = new UserAccount();
-            user.setUserName(userName);
-            user.setPassword(password);
+        if (invalid) {
 
             // Store information in request attribute, before forward.
-            request.setAttribute("errorString", errorString);
-            request.setAttribute("user", user);
+            request.setAttribute("error", error);
+            request.setAttribute("user", null);
 
             // Forward to /WEB-INF/views/login.jsp
             RequestDispatcher dispatcher //
@@ -90,19 +83,10 @@ public class AuthentificationServlet extends HttpServlet {
         // And redirect to userInfo page.
         else {
             HttpSession session = request.getSession();
-            Utils.storeSession(session, user);
+            Session.startSession(session, user);
 
-            // If user checked "Remember me".
-            if (remember) {
-                Utils.storeUserCookie(response, user);
-            }
-            // Else delete cookie.
-            else {
-                Utils.deleteUserCookie(response);
-            }
-
-            // Redirect to userInfo page.
-            response.sendRedirect(request.getContextPath() + "/userInfo");
+            // Redirect to home page.
+            response.sendRedirect(request.getContextPath() + "/");
         }
     }
 }

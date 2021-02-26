@@ -33,6 +33,7 @@ public class AuthentificationServlet extends HttpServlet {
             dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/indexView.jsp");
         }
         else {
+            Session.resetSession(request.getSession());
             dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/loginView.jsp");
         }
 
@@ -82,8 +83,7 @@ public class AuthentificationServlet extends HttpServlet {
         // Store user information in Session
         // And redirect to userInfo page.
         else {
-            HttpSession session = request.getSession();
-            Session.startSession(session, user);
+            Session.startSession(request.getSession(), user);
 
             // Redirect to home page.
             response.sendRedirect(request.getContextPath() + "/");

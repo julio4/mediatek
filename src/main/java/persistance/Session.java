@@ -17,7 +17,11 @@ public class Session {
     On stock dans les cookies la connexion et les information de l'utilisateur connecté
      */
     public static final String ATT_CONNEXION = "connexion_id";
-    private static final String ATT_USERNAME = "current_user_id";
+
+    public static void resetSession(HttpSession session) {
+        session.setAttribute("user", null);
+        session.setAttribute("logged", false);
+    }
 
     public static void storeConnection(ServletRequest request, Connection co) {
         request.setAttribute(ATT_CONNEXION, co);
@@ -28,8 +32,10 @@ public class Session {
     }
 
     public static void startSession(HttpSession session, LoggedUser user) {
-        // On the JSP can access via ${user}
+        if(session.getAttribute("logged") == null)
+            resetSession(session);
         session.setAttribute("user", user);
+        session.setAttribute("logged", true);
     }
 
     // Get the user information stored in the session.
@@ -38,37 +44,8 @@ public class Session {
     }
 
     public static boolean isStarted(HttpSession session) {
-        return ((LoggedUser) session.getAttribute("user")) != null;
+        if(session.getAttribute("logged") == null)
+            resetSession(session);
+        return (boolean) session.getAttribute("logged");
     }
-
-    //TODO : générer token cookie à stocker dans la bdd pour ne pas usurper des connexion (à faire quand tout marche)
-
-    // Store info in Cookie
-    public static void storeUserCookie(HttpServletResponse response, Utilisateur user) {
-        Cookie cookieUserName = new Cookie(ATT_USERNAME, user.login());
-        // 1 day expiration
-        cookieUserName.setMaxAge(24 * 60 * 60);
-        response.addCookie(cookieUserName);
-    }
-
-    public static String getUserNameInCookie(HttpServletRequest request) {
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (ATT_USERNAME.equals(cookie.getName())) {
-                    return cookie.getValue();
-                }
-            }
-        }
-        return null;
-    }
-
-    // Delete cookie.
-    public static void deleteUserCookie(HttpServletResponse response) {
-        Cookie cookieUserName = new Cookie(ATT_USERNAME, null);
-        // 0 seconds (instant expiration)
-        cookieUserName.setMaxAge(0);
-        response.addCookie(cookieUserName);
-    }
-
 }

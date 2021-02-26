@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="persistant">
-    <CLASSES />
-    <JAVADOC />
-    <SOURCES>
-      <root url="jar://$PROJECT_DIR$/src/main/webapp/WEB-INF/lib/persistant.jar!/" />
-    </SOURCES>
-  </library>
-</component>

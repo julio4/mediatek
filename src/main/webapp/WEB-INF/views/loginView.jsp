@@ -1,22 +1,30 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<jsp:include page="parts/header.jsp"></jsp:include>
-<jsp:include page="parts/navbar.jsp"></jsp:include>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<h3>Login</h3>
+<jsp:include page="parts/core.jsp"></jsp:include>
 
-<form method="POST">
-    <label for="username">
-        Identifiant
-        <input name="username" id="username">
-    </label>
-    <label for="password">
-        Mot de passe
-        <input name="password" id="password" type="password">
-    </label>
-    <div id="error-container">
-        <span>${error}</span>
-    </div>
-    <button type="submit">Se connecter</button>
-</form>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/login.css" />
+
+</head>
+<body class="text-center">
+    <form method="POST" class="form-signin">
+
+        <img class="mb-4" src="${pageContext.request.contextPath}/assets/img/default.png" alt="Mediatek" height="72">
+        <h1 class="h3 mb-3 font-weight-normal">Veuillez vous identifier</h1>
+
+        <label for="username" class="sr-only">Identifiant</label>
+        <input type="text" id="username" name="username" class="form-control" placeholder="Identifiant" required autofocus>
+
+        <label for="password" class="sr-only">Mot de passe</label>
+        <input type="password" id="password" name="password" class="form-control" placeholder="Mot de passe" required>
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Se connecter</button>
+
+        <c:if test="${not empty error}">
+            <div class="alert alert-danger my-2" role="alert">
+                    ${error}
+            </div>
+        </c:if>
+    </form>
 
 <jsp:include page="parts/footer.jsp"></jsp:include>

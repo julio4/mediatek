@@ -11,8 +11,8 @@ public class DatabaseConnection {
         // Info de connexion
         String host = "localhost";
         String sid = "XE";
-        String user = "SYSTEM";
-        String password = "ROOT";
+        String user = "mediatek";
+        String password = "root";
 
         // Pour Oracle
         Class.forName("oracle.jdbc.driver.OracleDriver");

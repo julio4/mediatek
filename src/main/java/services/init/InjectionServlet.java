@@ -1,7 +1,6 @@
 package services.init;
 
-import mediatek2021.Mediatek;
-import persistance.modèle.PMediatek;
+import persistance.Session;
 
 import java.io.*;
 import javax.servlet.http.*;
@@ -13,7 +12,7 @@ public class InjectionServlet extends HttpServlet {
     @Override
     public void init() {
         try {
-            Class.forName("persistance.modèle.PMediatek");
+            Class.forName("persistance.modèle.MediatekData");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }

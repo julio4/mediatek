@@ -26,4 +26,9 @@ public class LoggedUser implements Utilisateur {
     public Object[] data() {
         return new Object[0];
     }
+
+    @Override
+    public String toString() {
+        return this.username;
+    }
 }

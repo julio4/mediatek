@@ -7,7 +7,7 @@
 <body>
 
 <nav class="navbar navbar-expand-md navbar-light bg-white border-bottom shadow-sm mb-4">
-    <img class="navbar-brand" src="${pageContext.request.contextPath}/assets/img/left-default.png" alt="Mediatek"  height="49">
+    <img class="navbar-brand ml-3" src="${pageContext.request.contextPath}/assets/img/left-default.png" alt="Mediatek"  height="49">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -24,10 +24,13 @@
             </li>
         </ul>
         <div class="mt-3">
-            <p class="mt-1">Bonjour <b>${user}</b></p>
-            <a href="logout">
-                <img src="${pageContext.request.contextPath}/assets/img/logout.png" height="39" alt="Déconnexion">
-            </a>
+            <p>
+                Bonjour <b>${user}</b>
+                <a href="logout" class="mx-2">
+                    <img src="${pageContext.request.contextPath}/assets/img/logout.png" height="19" alt="Déconnexion">
+                </a>
+            </p>
+
         </div>
     </div>
 </nav>

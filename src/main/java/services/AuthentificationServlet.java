@@ -9,14 +9,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import mediatek2021.Mediatek;
-import mediatek2021.Utilisateur;
 import persistance.Session;
 import persistance.modèle.LoggedUser;
 
-@WebServlet(urlPatterns = { "/login" })
+@WebServlet(name="login", urlPatterns = { "/login" })
 public class AuthentificationServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -28,23 +26,17 @@ public class AuthentificationServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher dispatcher = null;
 
-        //Si connecté redirection vers la page d'accueil
-        if(Session.isStarted(request.getSession())) {
+        if(Session.isStarted())
             dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/indexView.jsp");
-        }
-        else {
-            Session.resetSession(request.getSession());
+        else
             dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/loginView.jsp");
-        }
 
         dispatcher.forward(request, response);
     }
 
-    // When the user enters userName & password, and click Submit.
-    // This method will be executed.
+    // Lorsque le formulaire de connexion est envoyé
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String username = request.getParameter("username");
         String password = request.getParameter("password");
@@ -57,8 +49,7 @@ public class AuthentificationServlet extends HttpServlet {
             invalid = true;
             error = "Veuillez indiquer votre nom d'utilisateur et votre mot de passe!";
         } else {
-            Connection db = Session.getConnection(request);
-            // Find the user in the DB.
+
             user = (LoggedUser) Mediatek.getInstance().getUser(username, password);
 
             if (user == null) {
@@ -66,27 +57,21 @@ public class AuthentificationServlet extends HttpServlet {
                 error = "Utilisateur ou mot de passe non valide";
             }
         }
-        // If error, forward to /WEB-INF/views/login.jsp
+
         if (invalid) {
 
-            // Store information in request attribute, before forward.
+            // On enregistre le message d'erreur
             request.setAttribute("error", error);
-            request.setAttribute("user", null);
 
-            // Forward to /WEB-INF/views/login.jsp
-            RequestDispatcher dispatcher //
-                    = this.getServletContext().getRequestDispatcher("/WEB-INF/views/loginView.jsp");
-
+            RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/loginView.jsp");
             dispatcher.forward(request, response);
         }
-        // If no error
-        // Store user information in Session
-        // And redirect to userInfo page.
         else {
-            Session.startSession(request.getSession(), user);
+            Session.startSession(request, user);
 
-            // Redirect to home page.
-            response.sendRedirect(request.getContextPath() + "/");
+            // Connexion avec succès, redirection vers la page d'accueil !
+            request.setAttribute("success", "Connexion avec succès ! Bienvenue " + user.login() +".");
+            response.sendRedirect(request.getContextPath());
         }
     }
 }

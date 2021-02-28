@@ -6,6 +6,7 @@ import persistance.Session;
 import persistance.modèle.PDocument;
 
 import java.io.IOException;
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -18,11 +19,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name="index", urlPatterns = {"/"})
-public class IndexServlet extends HttpServlet {
+@WebServlet(name="liste", urlPatterns = {"/list"})
+public class ListeServlet extends HttpServlet {
+    @Serial
     private static final long serialVersionUID = 1L;
 
-    public IndexServlet() {
+    public ListeServlet() {
         super();
     }
 
@@ -30,13 +32,13 @@ public class IndexServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         if(Session.isStarted()) {
-
             List<Document> list = Mediatek.getInstance().catalogue(0);
             request.setAttribute("list", list);
 
-            RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/indexView.jsp");
+            RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/listView.jsp");
             dispatcher.forward(request, response);
-        } else
+        }
+        else
             response.sendRedirect(request.getContextPath() + "/login");
     }
 

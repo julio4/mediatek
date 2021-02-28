@@ -7,12 +7,14 @@ public class PDocument implements Document {
     private int id;
     private int type;
     private String titre;
+    private String autheur;
     private boolean emprunt;
 
-    public PDocument(int id, int type, String titre, boolean emprunt) {
+    public PDocument(int id, int type, String titre, String autheur, boolean emprunt) {
         this.id = id;
         this.type = type;
         this.titre = titre;
+        this.autheur = autheur;
         this.emprunt = emprunt;
     }
 
@@ -43,7 +45,16 @@ public class PDocument implements Document {
         return this.titre;
     }
 
+    public String getAutheur() {
+        return this.autheur;
+    }
+
     public boolean estEmprunté() {
         return this.emprunt;
+    }
+
+    @Override
+    public String toString() {
+        return "#" + id + "\"" + titre + "\" (" + type + ")";
     }
 }

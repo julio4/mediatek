@@ -1,9 +1,11 @@
 <div style="text-align:center">
-    <img src="git-assets/profile.png" alt="Mediatek"/>
+    <p align="center">
+        <img width="210" src="git-assets/profile.png" alt="Mediatek"/>
+    </p>
     <p>Jules Doumèche • Hélène Te</p>
 </div>
 
-##Prerequisites
+## Prerequisites
 
 ### Database
 

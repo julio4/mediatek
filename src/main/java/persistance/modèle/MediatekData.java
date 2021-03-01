@@ -28,6 +28,7 @@ public class MediatekData implements PersistentMediatek {
 	// - 3 CD
 	@Override
 	public List<Document> catalogue(int type) {
+		Connection db = DatabaseConnection.getConnection();
 		List<Document> documents = new ArrayList<>();
 
 		String sql = "SELECT * FROM DOCUMENTS";
@@ -37,7 +38,7 @@ public class MediatekData implements PersistentMediatek {
 		}
 
 		try {
-			PreparedStatement statement = Session.getConnection().prepareStatement(sql);
+			PreparedStatement statement = db.prepareStatement(sql);
 			if(type > 0) {
 				statement.setInt(1, type);
 			}
@@ -54,6 +55,7 @@ public class MediatekData implements PersistentMediatek {
 			}
 		} catch (SQLException ignored) {}
 
+		DatabaseConnection.close(db);
 		return documents;
 	}
 
@@ -88,12 +90,13 @@ public class MediatekData implements PersistentMediatek {
 	// si pas trouvé, renvoie null
 	@Override
 	public Document getDocument(int numDocument) {
+		Connection db = DatabaseConnection.getConnection();
 		String sql = "SELECT * " +
 					 "FROM DOCUMENTS " +
 					 "WHERE id = ?";
 
 		try {
-			PreparedStatement statement = Session.getConnection().prepareStatement(sql);
+			PreparedStatement statement = db.prepareStatement(sql);
 			statement.setInt(1, numDocument);
 			ResultSet rs = statement.executeQuery();
 
@@ -104,33 +107,40 @@ public class MediatekData implements PersistentMediatek {
 				String autheur = rs.getString("autheur");
 				boolean emprunt = rs.getBoolean("emprunt");
 
+				DatabaseConnection.close(db);
 				return new PDocument(id, typedoc, titre, autheur, emprunt);
 			}
 		} catch (SQLException ignored) {}
 
+		DatabaseConnection.close(db);
 		return null;
 	}
 
 	// ajoute un nouveau document
 	@Override
 	public void newDocument(int type, Object... args) throws NewDocException {
-		String sql = "INSERT INTO DOCUMENTS (TYPE, TITRE, AUTHEUR) VALUES (?,?,?)";
+		Connection db = DatabaseConnection.getConnection();
+		String sql = "INSERT INTO DOCUMENTS (TYPE, TITRE, AUTEUR) VALUES (?,?,?)";
 
-		try {
-			PreparedStatement statement = Session.getConnection().prepareStatement(sql);
-			statement.setInt(1, type);
-			statement.setString(2, (String) args[0]);
-			statement.setString(3, (String) args[1]);
+		synchronized (this) {
+			try {
+				PreparedStatement statement = db.prepareStatement(sql);
+				statement.setInt(1, type);
+				statement.setString(2, (String) args[0]);
+				statement.setString(3, (String) args[1]);
 
-			statement.executeUpdate();
-		} catch (Exception e) {
-			throw new NewDocException("Impossible d'ajouter le document");
+				statement.executeUpdate();
+			} catch (Exception e) {
+				throw new NewDocException("Impossible d'ajouter le document");
+			}
 		}
+		DatabaseConnection.close(db);
 	}
 
 	// supprime un document
 	@Override
 	public void suppressDoc(int numDoc) throws SuppressException {
+		Connection db = DatabaseConnection.getConnection();
 		PDocument doc = (PDocument) getDocument(numDoc);
 		if(doc == null)
 			throw new SuppressException("Document " + doc + " inexistant ou déjà supprimé.");
@@ -138,14 +148,17 @@ public class MediatekData implements PersistentMediatek {
 			throw new SuppressException("Impossible de supprimer le document " + doc + " car il est actuellement emprunté.");
 
 		String sql = "DELETE FROM DOCUMENTS WHERE ID = ?";
-		try {
-			PreparedStatement statement = Session.getConnection().prepareStatement(sql);
-			statement.setInt(1, numDoc);
 
-			statement.executeUpdate();
-		} catch (Exception e) {
-			throw new SuppressException("Impossible de supprimer le document");
+		synchronized (this) {
+			try {
+				PreparedStatement statement = db.prepareStatement(sql);
+				statement.setInt(1, numDoc);
+				statement.executeUpdate();
+			} catch (Exception e) {
+				throw new SuppressException("Impossible de supprimer le document");
+			}
 		}
-	}
 
+		DatabaseConnection.close(db);
+	}
 }

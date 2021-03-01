@@ -10,6 +10,7 @@ import java.io.Serial;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -30,9 +31,22 @@ public class ListeServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        this.doPost(request, response);
+    }
 
-        if(Session.isStarted()) {
-            List<Document> list = Mediatek.getInstance().catalogue(0);
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if(Session.isStarted(request.getSession())) {
+            List<Document> list;
+
+            String type = request.getParameter("type");
+            if(type != null && Pattern.compile("\\d+").matcher(type).matches() && Integer.parseInt(type) < 3) {
+                list = Mediatek.getInstance().catalogue(Integer.parseInt(type));
+            }
+            else {
+                list = Mediatek.getInstance().catalogue(0);
+            }
+
             request.setAttribute("list", list);
 
             RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/listView.jsp");
@@ -40,10 +54,5 @@ public class ListeServlet extends HttpServlet {
         }
         else
             response.sendRedirect(request.getContextPath() + "/login");
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        this.doGet(request, response);
     }
 }

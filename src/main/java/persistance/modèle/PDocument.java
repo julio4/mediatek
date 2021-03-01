@@ -7,14 +7,14 @@ public class PDocument implements Document {
     private int id;
     private int type;
     private String titre;
-    private String autheur;
+    private String auteur;
     private boolean emprunt;
 
-    public PDocument(int id, int type, String titre, String autheur, boolean emprunt) {
+    public PDocument(int id, int type, String titre, String auteur, boolean emprunt) {
         this.id = id;
         this.type = type;
         this.titre = titre;
-        this.autheur = autheur;
+        this.auteur = auteur;
         this.emprunt = emprunt;
     }
 
@@ -45,8 +45,8 @@ public class PDocument implements Document {
         return this.titre;
     }
 
-    public String getAutheur() {
-        return this.autheur;
+    public String getAuteur() {
+        return this.auteur;
     }
 
     public boolean estEmprunté() {

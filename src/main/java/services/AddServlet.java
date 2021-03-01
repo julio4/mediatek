@@ -18,7 +18,7 @@ public class AddServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
-        if(Session.isStarted()) {
+        if(Session.isStarted(request.getSession())) {
             RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/addView.jsp");
             dispatcher.forward(request, response);
         } else
@@ -27,7 +27,7 @@ public class AddServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if(Session.isStarted()) {
+        if(Session.isStarted(request.getSession())) {
             String titre = request.getParameter("titre");
             String autheur = request.getParameter("autheur");
             int type = Integer.parseInt(request.getParameter("type"));

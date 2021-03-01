@@ -26,7 +26,7 @@ public class AuthentificationServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher dispatcher = null;
 
-        if(Session.isStarted())
+        if(Session.isStarted(request.getSession()))
             dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/indexView.jsp");
         else
             dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/loginView.jsp");

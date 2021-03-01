@@ -22,7 +22,7 @@ public class DeleteServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if(Session.isStarted()) {
+        if(Session.isStarted(request.getSession())) {
             int docId = Integer.parseInt(request.getParameter("id"));
             PDocument document = (PDocument) Mediatek.getInstance().getDocument(docId);
 

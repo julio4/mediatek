@@ -1,42 +1,34 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <jsp:include page="parts/header.jsp"></jsp:include>
 <div class="container">
 
     <jsp:include page="parts/alerts.jsp"></jsp:include>
 
-    <div class="card">
-        <div class="table-responsive">
-            <table class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Type</th>
-                    <th>Titre</th>
-                    <th>Autheur</th>
-                    <th>Opération</th>
-                </tr>
-                </thead>
-                <tbody>
-                <c:forEach items="${list}" var="list">
-                    <tr>
-                        <td>${list.getId()}</td>
-                        <td>${list.getType()}</td>
-                        <td>${list.getTitre()}</td>
-                        <td>${list.getAutheur()}</td>
-                        <td>
-                            <form id="form_${list.getId()}" method="POST" action="delete">
-                                <input type="hidden" name="id" value="${list.getId()}" />
-                                <input form="form_${list.getId()}" type="submit" value="Supprimer" />
-                            </form>
-                        </td>
-                    </tr>
-                </c:forEach>
-                </tbody>
-            </table>
-        </div>
+    <div>
+        <form class="needs-validation" method="POST">
+            <div class="row">
+                <div class="col-6">
+                    <label for="type">Type</label>
+                    <select class="custom-select d-block w-100" id="type" name="type" required>
+                        <option value="">Sélection...</option>
+                        <option value="0">Tous</option>
+                        <option value="1">Livre</option>
+                        <option value="2">DVD</option>
+                        <option value="3">CD</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Veuillez choisir un type valide.
+                    </div>
+                </div>
+                <div class="col-6">
+                    <button class="btn btn-primary" type="submit">Filtrer</button>
+                </div>
+            </div>
+        </form>
     </div>
+
+    <jsp:include page="parts/list.jsp"></jsp:include>
 
 </div>
 

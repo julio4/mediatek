@@ -29,10 +29,17 @@ public class IndexServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        if(Session.isStarted()) {
+        if(Session.isStarted(request.getSession())) {
 
             List<Document> list = Mediatek.getInstance().catalogue(0);
             request.setAttribute("list", list);
+
+            int emprunts = 0;
+            for (Document doc : list) {
+                if(((PDocument) doc).estEmprunté())
+                    emprunts++;
+            }
+            request.setAttribute("emprunts", emprunts);
 
             RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/indexView.jsp");
             dispatcher.forward(request, response);

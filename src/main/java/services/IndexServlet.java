@@ -4,11 +4,11 @@ import mediatek2021.Document;
 import mediatek2021.Mediatek;
 import persistance.Session;
 import persistance.modèle.PDocument;
+import persistance.modèle.filters.IdSorter;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.io.Serial;
+import java.util.*;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -20,10 +20,15 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(name="index", urlPatterns = {"/"})
 public class IndexServlet extends HttpServlet {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     public IndexServlet() {
         super();
+    }
+
+    public static <T> List<T> cast(List list) {
+        return list;
     }
 
     @Override
@@ -31,7 +36,8 @@ public class IndexServlet extends HttpServlet {
 
         if(Session.isStarted(request.getSession())) {
 
-            List<Document> list = Mediatek.getInstance().catalogue(0);
+            List<PDocument> list = cast(Mediatek.getInstance().catalogue(0));
+            list.sort(new IdSorter());
             request.setAttribute("list", list);
 
             int emprunts = 0;

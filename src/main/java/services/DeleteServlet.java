@@ -5,6 +5,7 @@ import mediatek2021.SuppressException;
 import persistance.Session;
 import persistance.modèle.PDocument;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -32,7 +33,8 @@ public class DeleteServlet extends HttpServlet {
             } catch (SuppressException e) {
                 request.setAttribute("error", e.getMessage());
             }
-            response.sendRedirect(request.getContextPath() + "/list");
+
+            response.sendRedirect(request.getContextPath() + "/");
         }
         else
             response.sendRedirect(request.getContextPath() + "/login");

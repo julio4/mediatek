@@ -27,8 +27,8 @@
 
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label for="autheur">Autheur</label>
-                        <input type="text" class="form-control" id="autheur" name="autheur" placeholder="" value="" required>
+                        <label for="auteur">Auteur</label>
+                        <input type="text" class="form-control" id="auteur" name="auteur" placeholder="" value="" required>
                         <div class="invalid-feedback">
                             Veuillez précisez l'autheur.
                         </div>

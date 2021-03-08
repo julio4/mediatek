@@ -7,8 +7,8 @@
 
         <div class="row equal my-4">
 
-            <div class="col-12 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                <div class="card rounded shadow-sm border-0">
+            <div class="col-12 col-md-6 col-lg-4 mb-4 mb-lg-0">
+                <div class="card rounded shadow border-0 bg-light">
                     <div class="card-body p-4 text-center">
                         <p class="card-title">Documents</p>
                         <h2 class="card-text">${list.size()}</h2>
@@ -16,8 +16,8 @@
                 </div>
             </div>
 
-            <div class="col-12 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                <div class="card rounded shadow-sm border-0">
+            <div class="col-12 col-md-6 col-lg-4 mb-4 mb-lg-0">
+                <div class="card rounded shadow border-0 bg-light">
                     <div class="card-body p-4 text-center">
                         <p class="card-title">Emprunté</p>
                         <h2 class="card-text">${emprunts}</h2>
@@ -25,15 +25,16 @@
                 </div>
             </div>
 
-            <a href="${pageContext.request.contextPath}/add">
-                <div class="col-12 col-md-6 col-lg-6 mb-4 mb-lg-0">
-                    <div class="card rounded shadow-sm border-0 bg-success">
-                        <div class="card-body p-4 text-center">
-                            <i class="far fa-plus-square"></i>
+            <div class="col-12 col-md-6 col-lg-4 mb-4 mb-lg-0">
+                <div class="card rounded shadow border-0 h-100">
+                    <a href="${pageContext.request.contextPath}/add" class="btn btn-outline-success w-100 h-100">
+                        <div class="card-body text-center">
+                            <p class="card-title">Ajout rapide</p>
+                            <span class="far fa-plus-square fa-2x"></span>
                         </div>
-                    </div>
+                    </a>
                 </div>
-            </a>
+            </div>
 
         </div>
 

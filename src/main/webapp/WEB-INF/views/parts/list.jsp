@@ -1,9 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="persistance.modèle.PDocument" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <div class="card">
     <div class="table-responsive">
-        <table class="table table-bordered table-striped">
+        <table class="table table-bordered table-striped text-center">
             <thead>
             <tr>
                 <th>#</th>
@@ -15,24 +16,29 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${list}" var="list">
+            <c:forEach items="${list}" var="doc">
                 <tr>
-                    <td>${list.getId()}</td>
-                    <td>${list.getType()}</td>
-                    <td>${list.getTitre()}</td>
-                    <td>${list.getAutheur()}</td>
+                    <td>${doc.getId()}</td>
+                    <td>${doc.getType()}</td>
+                    <td>${doc.getTitre()}</td>
+                    <td>${doc.getAuteur()}</td>
                     <td>
-                        <c:if test="${list.estEmprunté()}">
+                        <c:if test="${doc.estEmprunté()}">
                             <i class="fas fa-check"></i>
                         </c:if>
-                        <c:if test="!${list.estEmprunté()}">
+                        <c:if test="${!doc.estEmprunté()}">
                             <i class="fas fa-times"></i>
                         </c:if>
                     </td>
                     <td>
-                        <form id="form_${list.getId()}" method="POST" action="delete">
-                            <input type="hidden" name="id" value="${list.getId()}" />
-                            <input class="btn btn-outline-danger" form="form_${list.getId()}" type="submit" value="Supprimer" />
+                        <form id="form_${doc.getId()}" method="POST" action="delete">
+                            <input type="hidden" name="id" value="${doc.getId()}" />
+                            <button class="btn btn-outline-danger" form="form_${doc.getId()}" type="submit"
+                                <c:if test="${doc.estEmprunté()}">
+                                    disabled
+                                </c:if>
+                            >Supprimer <i class="fa fa-trash"></i>
+                            </button>
                         </form>
                     </td>
                 </tr>

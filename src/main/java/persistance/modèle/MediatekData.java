@@ -18,6 +18,9 @@ public class MediatekData implements PersistentMediatek {
 		Mediatek.getInstance().setData(new MediatekData());
 	}
 
+	private static Object newLock = new Object();
+	private static Object delLock = new Object();
+
 	private MediatekData() {}
 
 	// renvoie la liste de tous les documents de la bibliothèque
@@ -48,7 +51,7 @@ public class MediatekData implements PersistentMediatek {
 				int id = rs.getInt("id");
 				int typedoc = rs.getInt("type");
 				String titre = rs.getString("titre");
-				String autheur = rs.getString("autheur");
+				String autheur = rs.getString("auteur");
 				boolean emprunt = rs.getBoolean("emprunt");
 				PDocument doc = new PDocument(id, typedoc, titre, autheur, emprunt);
 				documents.add(doc);
@@ -104,7 +107,7 @@ public class MediatekData implements PersistentMediatek {
 				int id = rs.getInt("id");
 				int typedoc = rs.getInt("type");
 				String titre = rs.getString("titre");
-				String autheur = rs.getString("autheur");
+				String autheur = rs.getString("auteur");
 				boolean emprunt = rs.getBoolean("emprunt");
 
 				DatabaseConnection.close(db);
@@ -122,6 +125,7 @@ public class MediatekData implements PersistentMediatek {
 		Connection db = DatabaseConnection.getConnection();
 		String sql = "INSERT INTO DOCUMENTS (TYPE, TITRE, AUTEUR) VALUES (?,?,?)";
 
+		//TODO ajout locks
 		synchronized (this) {
 			try {
 				PreparedStatement statement = db.prepareStatement(sql);

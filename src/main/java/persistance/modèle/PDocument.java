@@ -2,33 +2,33 @@ package persistance.modèle;
 
 import mediatek2021.Document;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class PDocument implements Document {
 
-    private int id;
-    private int type;
-    private String titre;
-    private String auteur;
-    private boolean emprunt;
+    private Map<String, Object> data = new HashMap<String, Object>();
 
     public PDocument(int id, int type, String titre, String auteur, boolean emprunt) {
-        this.id = id;
-        this.type = type;
-        this.titre = titre;
-        this.auteur = auteur;
-        this.emprunt = emprunt;
+        data.put("id", id);
+        data.put("type", type);
+        data.put("titre", titre);
+        data.put("auteur", auteur);
+        data.put("emprunt", emprunt);
     }
 
     @Override
     public Object[] data() {
-        return new Object[0];
+        //retourne Map.Entry<String, Object>[] -> Set<Map.Entry<String, Object>>
+        return data.entrySet().toArray();
     }
 
     public int getId() {
-        return this.id;
+        return (int) data.get("id");
     }
 
     public String getType() {
-        switch(this.type) {
+        switch((int)data.get("type")) {
             case 1:
                 return "Livre";
             case 2:
@@ -42,19 +42,19 @@ public class PDocument implements Document {
     }
 
     public String getTitre() {
-        return this.titre;
+        return (String) data.get("titre");
     }
 
     public String getAuteur() {
-        return this.auteur;
+        return (String) data.get("auteur");
     }
 
     public boolean estEmprunté() {
-        return this.emprunt;
+        return (boolean) data.get("emprunt");
     }
 
     @Override
     public String toString() {
-        return "#" + id + "\"" + titre + "\" (" + type + ")";
+        return "#" + data.get("id") + "\"" + data.get("titre") + "\" (" + this.getType() + ")";
     }
 }

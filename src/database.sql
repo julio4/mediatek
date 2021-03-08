@@ -22,11 +22,11 @@ VALUES ('admin','admin');
 INSERT INTO UTILISATEURS (identifiant, motdepasse)
 VALUES ('user','user');
 
-INSERT INTO DOCUMENTS (type, titre, AUTEUR)
-VALUES (1,'Stars Wars','BLOB');
-INSERT INTO DOCUMENTS (type, titre, AUTEUR)
-VALUES (2,'...','BLOB');
-INSERT INTO DOCUMENTS (type, titre, AUTEUR)
-VALUES (3,'....','BLOB');
+INSERT INTO DOCUMENTS (type, titre, auteur, emprunt)
+VALUES (1,'Stars Wars','BLOB', 1);
+INSERT INTO DOCUMENTS (type, titre, auteur, emprunt)
+VALUES (2,'...','BLOB', 1);
+INSERT INTO DOCUMENTS (type, titre, auteur, emprunt)
+VALUES (3,'....','BLOB', 0);
 
 COMMIT;

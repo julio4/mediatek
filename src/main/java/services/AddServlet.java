@@ -29,18 +29,18 @@ public class AddServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if(Session.isStarted(request.getSession())) {
             String titre = request.getParameter("titre");
-            String autheur = request.getParameter("autheur");
+            String auteur = request.getParameter("auteur");
             int type = Integer.parseInt(request.getParameter("type"));
 
             boolean invalid = false;
             String error = null;
 
-            if (titre == null || autheur == null || titre.length() == 0 || autheur.length() == 0) {
+            if (titre == null || auteur == null || titre.length() == 0 || auteur.length() == 0) {
                 invalid = true;
                 error = "Veuillez remplir tout les champs.";
             } else {
                 try {
-                    Mediatek.getInstance().newDocument(type, titre, autheur);
+                    Mediatek.getInstance().newDocument(type, titre, auteur);
                 } catch (NewDocException e) {
                     invalid = true;
                     error = e.getMessage();

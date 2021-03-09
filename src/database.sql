@@ -26,10 +26,34 @@ INSERT INTO UTILISATEURS (identifiant, motdepasse)
 VALUES ('user','user');
 
 INSERT INTO DOCUMENTS (type, titre, auteur, emprunt)
-VALUES (1,'Stars Wars','BLOB', 1);
+VALUES (2,'Stars Wars, épisode I : La Menace fantome','Georges Lucas', 1);
 INSERT INTO DOCUMENTS (type, titre, auteur, emprunt)
-VALUES (2,'...','BLOB', 1);
+VALUES (2,'Full Metal Jacket','Stanley Kubric', 1);
 INSERT INTO DOCUMENTS (type, titre, auteur, emprunt)
-VALUES (3,'....','BLOB', 0);
+VALUES (2,'Les Dents de la mer','Steven Spielberg', 0);
+INSERT INTO DOCUMENTS (type, titre, auteur, emprunt)
+VALUES (2,'Gravity','Alfonso Cuaron', 1);
+INSERT INTO DOCUMENTS (type, titre, auteur, emprunt)
+VALUES (2,'Big Fish','Tim Burton', 0);
+INSERT INTO DOCUMENTS (type, titre, auteur, emprunt)
+VALUES (1,'Le crepuscule des fauves','Marc Levy', 0);
+INSERT INTO DOCUMENTS (type, titre, auteur, emprunt)
+VALUES (1,'Si ça saigne','Stephen King', 1);
+INSERT INTO DOCUMENTS (type, titre, auteur, emprunt)
+VALUES (1,'L''art subtil de s''en foutre','Mark Manson', 1);
+INSERT INTO DOCUMENTS (type, titre, auteur, emprunt)
+VALUES (1,'L''enigme de la chambre 622','Joel Dicker', 0);
+INSERT INTO DOCUMENTS (type, titre, auteur, emprunt)
+VALUES (1,'Une terre promise','Barack Obama', 1);
+INSERT INTO DOCUMENTS (type, titre, auteur, emprunt)
+VALUES (3,'Random access memories','Daft Punk', 1);
+INSERT INTO DOCUMENTS (type, titre, auteur, emprunt)
+VALUES (3,'After Hours','The Weeknd', 0);
+INSERT INTO DOCUMENTS (type, titre, auteur, emprunt)
+VALUES (3,'Chopin','Khatia Buniatishvili', 1);
+INSERT INTO DOCUMENTS (type, titre, auteur, emprunt)
+VALUES (3,'Sunset In The Blue','Melody Gradot', 1);
+INSERT INTO DOCUMENTS (type, titre, auteur, emprunt)
+VALUES (3,'Feu','Nekfeu', 0);
 
 COMMIT;

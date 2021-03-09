@@ -28,8 +28,8 @@
                         Veuillez choisir un type valide.
                     </div>
                 </div>
-                <div class="col-6">
-                    <button class="btn btn-primary" type="submit">Filtrer</button>
+                <div class="col-6 text-center">
+                    <button class="btn btn-primary mt-4 w-25" type="submit">Filtrer</button>
                 </div>
             </div>
         </form>

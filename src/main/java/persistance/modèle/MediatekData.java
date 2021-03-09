@@ -9,11 +9,15 @@ import java.util.List;
 
 import mediatek2021.*;
 import persistance.DatabaseConnection;
-import persistance.Session;
 
-
+/*
+ * La classe implémentant Mediatek
+ * Celle-ci est injecté dans l'instance unique de Mediatek lors de l'initialisation
+ * @see services.init.InjectionServlet
+ */
 public class MediatekData implements PersistentMediatek {
 
+	//Injection de la dépendance
 	static {
 		Mediatek.getInstance().setData(new MediatekData());
 	}
@@ -23,28 +27,28 @@ public class MediatekData implements PersistentMediatek {
 
 	private MediatekData() {}
 
-	// renvoie la liste de tous les documents de la bibliothèque
-	// type :
-	// - 0 Tous
-	// - 1 Livre
-	// - 2 DVD
-	// - 3 CD
+	/*
+	 * Permet d'obtenir une liste de tous les documents
+	 * Par types :
+	 * - 0 : Tous
+	 * - 1 : Livres
+	 * - 2 : DVD
+	 * - 3 : CD
+	 */
 	@Override
 	public List<Document> catalogue(int type) {
 		Connection db = DatabaseConnection.getConnection();
 		List<Document> documents = new ArrayList<>();
 
 		String sql = "SELECT * FROM DOCUMENTS";
-
 		if(type > 0) {
 			sql += " WHERE type = ?";
 		}
 
 		try {
 			PreparedStatement statement = db.prepareStatement(sql);
-			if(type > 0) {
+			if(type > 0)
 				statement.setInt(1, type);
-			}
 			ResultSet rs = statement.executeQuery();
 
 			while(rs.next()) {
@@ -62,8 +66,10 @@ public class MediatekData implements PersistentMediatek {
 		return documents;
 	}
 
-	// va récupérer le User dans la BD et le renvoie
-	// si pas trouvé, renvoie null
+	/*
+	 * Retourne l'utilisateur uniquement si le bon mot de passe est fournis
+	 * Permet de valider une connexion d'un utilisateur
+	 */
 	@Override
 	public Utilisateur getUser(String username, String password) {
 		Connection db = DatabaseConnection.getConnection();
@@ -84,13 +90,12 @@ public class MediatekData implements PersistentMediatek {
 			}
 			DatabaseConnection.close(db);
 		} catch (SQLException ignored) {}
-
 		return null;
 	}
 
-	// va récupérer le document de numéro numDocument dans la BD
-	// et le renvoie
-	// si pas trouvé, renvoie null
+	/*
+	 * Trouve et renvoie un Document avec son id
+	 */
 	@Override
 	public Document getDocument(int numDocument) {
 		Connection db = DatabaseConnection.getConnection();
@@ -119,14 +124,21 @@ public class MediatekData implements PersistentMediatek {
 		return null;
 	}
 
-	// ajoute un nouveau document
+	/*
+	 * Insère un nouveau Document dans la base de donnée
+	 * Pour l'instant, il faut passer en arguments les informations suivantes
+	 * type :
+	 * - 1 : Livres
+	 * - 2 : DVD
+	 * - 3 : CD
+	 * String titre, String auteur
+	 */
 	@Override
 	public void newDocument(int type, Object... args) throws NewDocException {
 		Connection db = DatabaseConnection.getConnection();
 		String sql = "INSERT INTO DOCUMENTS (TYPE, TITRE, AUTEUR) VALUES (?,?,?)";
 
-		//TODO ajout locks
-		synchronized (this) {
+		synchronized (newLock) {
 			try {
 				PreparedStatement statement = db.prepareStatement(sql);
 				statement.setInt(1, type);
@@ -141,11 +153,15 @@ public class MediatekData implements PersistentMediatek {
 		DatabaseConnection.close(db);
 	}
 
-	// supprime un document
+	/*
+	 * Permet de supprimer un document de la base par son id
+	 * @throw SuppressException si le document est en cours d'emprunt
+	 */
 	@Override
 	public void suppressDoc(int numDoc) throws SuppressException {
 		Connection db = DatabaseConnection.getConnection();
 		PDocument doc = (PDocument) getDocument(numDoc);
+
 		if(doc == null)
 			throw new SuppressException("Document " + doc + " inexistant ou déjà supprimé.");
 		if(doc.estEmprunté())
@@ -153,7 +169,7 @@ public class MediatekData implements PersistentMediatek {
 
 		String sql = "DELETE FROM DOCUMENTS WHERE ID = ?";
 
-		synchronized (this) {
+		synchronized (delLock) {
 			try {
 				PreparedStatement statement = db.prepareStatement(sql);
 				statement.setInt(1, numDoc);
@@ -162,7 +178,6 @@ public class MediatekData implements PersistentMediatek {
 				throw new SuppressException("Impossible de supprimer le document");
 			}
 		}
-
 		DatabaseConnection.close(db);
 	}
 }

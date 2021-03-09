@@ -5,8 +5,15 @@ import mediatek2021.Document;
 import java.util.HashMap;
 import java.util.Map;
 
+/*
+ * La classe implémentant Document,
+ * afin de pouvoir réaliser toutes les opérations de persistances vers la base de données
+ */
 public class PDocument implements Document {
 
+    /*
+     * la Map data permet de rapidement ajouter, supprimer, et obtenir les attributs d'un fichier
+     */
     private Map<String, Object> data = new HashMap<String, Object>();
 
     public PDocument(int id, int type, String titre, String auteur, boolean emprunt) {
@@ -17,9 +24,12 @@ public class PDocument implements Document {
         data.put("emprunt", emprunt);
     }
 
+    /*
+     * Permet de retourner un tableau associatif (key -> value) représentant les attributs du document
+     * @return Map.Entry<String, Object>[] / Set<Map.Entry<String, Object>>
+     */
     @Override
     public Object[] data() {
-        //retourne Map.Entry<String, Object>[] -> Set<Map.Entry<String, Object>>
         return data.entrySet().toArray();
     }
 

@@ -1,3 +1,10 @@
+<%--
+    Vue de la page de la liste des documents
+    @see ListeServlet
+    Attributs à fournir:
+    - List<PDocument> list
+    - (OPTIONEL) String success/error
+--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <jsp:include page="parts/header.jsp"></jsp:include>

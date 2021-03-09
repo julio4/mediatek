@@ -1,3 +1,9 @@
+<%--
+    Vue de la page de connexion
+    @see AuthentificationServlet
+    Attributs à fournir:
+    - (OPTIONEL) String success/error
+--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <jsp:include page="parts/core.jsp"></jsp:include>

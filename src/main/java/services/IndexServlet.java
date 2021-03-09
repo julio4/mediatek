@@ -12,12 +12,15 @@ import java.util.*;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/*
+ * Servlet de la page d'accueil
+ * Panel avec toutes les informations nécessaires
+ */
 @WebServlet(name="index", urlPatterns = {"/"})
 public class IndexServlet extends HttpServlet {
     @Serial
@@ -27,9 +30,7 @@ public class IndexServlet extends HttpServlet {
         super();
     }
 
-    public static <T> List<T> cast(List list) {
-        return list;
-    }
+    public static <T> List<T> cast(List l) {return l;}
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

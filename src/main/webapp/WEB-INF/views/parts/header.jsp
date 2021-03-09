@@ -1,3 +1,7 @@
+<%--
+    Composant de base afin de créer le schéma d'une page avec la barre de navigation
+    à mettre avant footer.jsp
+--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 

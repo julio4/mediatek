@@ -17,6 +17,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/*
+ * Servlet de la page permettant d'afficher la liste de tous les documents
+ */
 @WebServlet(name="liste", urlPatterns = {"/list"})
 public class ListeServlet extends HttpServlet {
     @Serial
@@ -26,9 +29,7 @@ public class ListeServlet extends HttpServlet {
         super();
     }
 
-    public static <T> List<T> cast(List list) {
-        return list;
-    }
+    public static <T> List<T> cast(List l) {return l; }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -40,14 +41,15 @@ public class ListeServlet extends HttpServlet {
         if(Session.isStarted(request.getSession())) {
             List<PDocument> list;
 
+            //Afin de filtrer les documents par type
             String type = request.getParameter("type");
             if(type != null && Pattern.compile("\\d+").matcher(type).matches() && Integer.parseInt(type) <= 3)
                 list = cast(Mediatek.getInstance().catalogue(Integer.parseInt(type)));
             else
                 list = cast(Mediatek.getInstance().catalogue(0));
 
+            //Futur implémentation de différents tris possible ici (@see persistance.modèle.filters)
             list.sort(new IdSorter());
-
             request.setAttribute("list", list);
 
             RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/listView.jsp");

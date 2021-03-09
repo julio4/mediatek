@@ -1,3 +1,8 @@
+<%--
+    Composant permettant d'afficher la liste des documents
+    Attributs à fournir:
+    - List<PDocument> list
+--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="persistance.modèle.PDocument" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>

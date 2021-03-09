@@ -2,6 +2,11 @@ package persistance.modèle;
 
 import mediatek2021.Utilisateur;
 
+/*
+ * Implémentation d'un Utilisateur de l'application
+ * Les utilisateurs sont forcément connectés
+ * On peut implémenter ici de futur rôles si nécessaires
+ */
 public class LoggedUser implements Utilisateur {
 
     private String username;

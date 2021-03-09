@@ -1,3 +1,7 @@
+<%--
+    Composant de base afin de fermer une page avec un footer
+    à inclure après header.jsp
+--%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
     <footer class="fixed-bottom my-3 text-muted text-center text-small">

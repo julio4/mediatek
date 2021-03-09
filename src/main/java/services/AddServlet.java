@@ -11,13 +11,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.Serial;
 
+/*
+ * Servlet d'ajout d'un nouveau document
+ * Restreint aux utilisateurs connectés
+ * @see vue addView.jsp
+ */
 @WebServlet(name="add", urlPatterns = { "/add" })
 public class AddServlet extends HttpServlet {
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-
         if(Session.isStarted(request.getSession())) {
             RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/addView.jsp");
             dispatcher.forward(request, response);

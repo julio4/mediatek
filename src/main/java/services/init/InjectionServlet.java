@@ -1,14 +1,18 @@
 package services.init;
 
-import persistance.Session;
-
-import java.io.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 
+/*
+ * Servlet d'initialisation
+ */
 @WebServlet(value="/initializeResources", loadOnStartup=1)
 public class InjectionServlet extends HttpServlet {
 
+    /*
+     * Permet d'éxecuter le bloc static de la classe MediatekData
+     * @see persistance.modèle.MediatekData
+     */
     @Override
     public void init() {
         try {
@@ -16,15 +20,5 @@ public class InjectionServlet extends HttpServlet {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-    }
-
-    @Override
-    public void destroy() {
-
     }
 }

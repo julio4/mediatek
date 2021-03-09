@@ -1,3 +1,7 @@
+<%--
+    Composant de base afin d'inclure toutes les dépendances (bootstrap, fontawesome, et css)
+    @see header.jsp
+--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>

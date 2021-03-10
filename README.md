@@ -18,10 +18,10 @@ GRANT CONNECT, RESOURCE, DBA, CREATE SESSION, UNLIMITED TABLESPACE TO mediatek;
 ```
 3. Edit `persistance.DatabaseConnection.java` with Oracle credentials:
 ```
-String host = "localhost";
-String sid = "XE";
-String user = "mediatek";
-String password = "*password*";
+private static String host = "localhost";
+private static String sid = "XE";
+private static String user = "mediatek";
+private static String password = "*password*";
 ```
 4. Load `database.sql` script in the freshly created database `MEDIATEK`
 
